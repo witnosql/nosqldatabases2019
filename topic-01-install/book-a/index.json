@@ -1,0 +1,53 @@
+
+
+
+  {
+  
+  
+    "properties" : {},
+  
+  "type" : "lab",
+  "title" : "Install MongoDB",
+  "img" : "img/main.png",
+  "videoid" : "none",
+  "objectives" : "<p>In this lab, we will install and test MongoDB, a non-relational database.</p>",
+  "folder" : "book-a",
+  "link" : "index.html",
+  "los": [
+   ]
+,
+  "chapters" : [
+  
+    {
+    "title": "# Objectives",
+    "shortTitle": "Install MongoDB",
+    "contentMd" : "# Objectives\r\n\r\nIn this lab, we will install and test MongoDB, a non-relational database.\r\n"
+    },
+  
+    {
+    "title": "# MongoDB installation",
+    "shortTitle": "01",
+    "contentMd" : "# MongoDB installation\r\n\r\nMongoDB is a non-relational database that stores data in flexible, JSON-like documents, meaning fields can vary from document to document and data structure can be changed over time. In this lab, we will download and install MongoDB and create a test document.\r\n\r\nGo to <a href=\"https://www.mongodb.com/download-center/community\" target=\"_ blank\">`https://www.mongodb.com/download-center/community`</a> and select the correct installer for your operating system.\r\n\r\n![](img/download.png)\r\n\r\nOnce the installer has downloaded, run it. Choose the following options during installation:\r\n\r\n  - Accept the license terms and agreement\r\n  - Choose *complete* as the setup type, to install all features\r\n  - Under Service Configuration, the \"Install MongoD as a service\" option should stay checked\r\n  - **Uncheck** the Install MongoDB Compass option. (MongoDB Compass is a graphical user interface for MongoDB; we will use the console for our commands. Compass causes installation to hang on some operating systems, so uncheck for now; it can be installed separately later if you wish to try it out).\r\n  - Click Install to begin the installation.\r\n\r\nTo confirm that MongoDB has installed successfully, go to the install location (probably `C:\\Program Files\\MongoDB\\`, or the equivalent location on your system). You should see a MongoDB folder. Go to the `Server\\4.0\\bin` folder and view the files there.\r\n\r\n![](img/installed.png)\r\n"
+    },
+  
+    {
+    "title": "# Getting started with MongoDB",
+    "shortTitle": "02",
+    "contentMd" : "# Getting started with MongoDB\r\n\r\nNow, we will take the first steps in starting to use MongoDB. We need to first create a storage location, and then start the Mongo server and client processes from the command prompt.\r\n\r\n## Create storage location for MongoDB\r\n\r\nOpen a command prompt (your regular system command prompt, not the Mongo shell) and run the following commands to create a folder on your C: drive called `db` inside a folder called `data`. This location is where MongoDB will store your data files.\r\n\r\n~~~\r\nc:\\\r\nmd data\r\nmd data\\db\r\n~~~\r\n\r\n![](img/md.png)\r\n\r\nYou should now see a folder on your C: drive called `data\\db`. Note that this step only needs to be done the first time you use MongoDB.\r\n\r\n![](img/datadbfolder.png)\r\n\r\n## Start server and client processes\r\n\r\nNext, we will start the MongoDB server and client processes. We will need to start both of these processes *every* time we use MongoDB. `mongod.exe` is the Mongo Server process, and `mongo.exe` is the client process.\r\n\r\n\r\n### Start mongod.exe (server)\r\n\r\n- In your command prompt, navigate to the bin folder within the command prompt. The location is probably something like `C:\\Program Files\\MongoDB\\Server\\4.0\\bin`.\r\n\r\n![](img/binfolder.png)\r\n\r\n- Now enter the command `mongod.exe`. This starts the MongoD application, which is the database server.\r\n\r\n![](img/mongod.png)\r\n\r\nYou should see something like this when MongoD is running. Note the part that says \"waiting for connections\"; this indicates our database server is running and waiting for users to connect to it. We will need to leave this command prompt open and running MongoD for the entire time that we are using the MongoDB database.  \r\n\r\n![](img/mongodrunning.png)\r\n\r\n\r\n### Start mongo.exe (client)\r\n\r\n- Open a **new** command prompt. Remember to leave the other one open too.\r\n- Once again, navigate to the `C:\\Program Files\\MongoDB\\Server\\4.0\\bin` folder.\r\n- Then, enter the command `mongo.exe`; this will start the Mongo client process.\r\n\r\n![](img/mongo.png)\r\n\r\nWhen Mongo has started, you will see something like the following. You should see a blinking cursor at the prompt, indicating that it is ready for commands.\r\n\r\n![](img/mongorunning.png)\r\n"
+    },
+  
+    {
+    "title": "# Creating your first document",
+    "shortTitle": "03",
+    "contentMd" : "# Creating your first document\r\n\r\nWe will delve into the CRUD (Create, Read, Update and Delete) functions in MongoDB in more detail next week. This week, we will create a very simple document and then use find() to retrieve it.\r\n\r\n- Use the `show dbs` command to list the databases currently held in the MongoDB system.\r\n\r\n![](img/showdbs.png)\r\n\r\n## Create\r\n\r\n- The `use test` command will switch to the test database if it exists already or create it if it doesn't exist; so in this instance, running the use test command both creates a database called \"test\" and switches to that database.\r\n\r\n![](img/usetest.png)\r\n\r\n- We will now create our first document in MongoDB. This is a sample document with a range of different datatypes used:\r\n\r\n~~~\r\ndb.test.insert(\r\n\t{\r\n\t\titem: \"box\",\r\n\t\tqty: 20,\r\n\t\tprice: 14.99,\r\n\t\tavailable: true,\r\n\t\ttimestamp: new Date(),\r\n\t\titemcodes: [1002, 1003, 1004],\r\n\t\tsupplierinfo: { name: \"Boxes Inc.\", location: \"Ireland\" }\r\n\t}\r\n)\r\n~~~\r\n\r\nWhen a document has been inserted successfully, you will see the following output:\r\n\r\n![](img/inserted.png)\r\n\r\n## Read\r\n\r\nTo read from a MongoDB database, the find() operation is used. To find the document we just created, use the following:\r\n\r\n~~~\r\ndb.test.find()\r\n~~~\r\n\r\nThis prints the document, although it's not very readable. MongoDB supports *chaining* of functions (meaning we can call multiple operations at the same time). The pretty() function produces more readable results.\r\n\r\n~~~\r\ndb.test.find().pretty()\r\n~~~\r\n\r\n![](img/findpretty.png)\r\n\r\nWe can now see the document we created, along with the timestamp that was assigned to it when we called the Date() function and the ObjectId that MongoDB assigned to it.\r\n"
+    },
+  
+    {
+    "title": "# Shutting down the processes",
+    "shortTitle": "04",
+    "contentMd" : "# Shutting down the processes\r\n\r\nIt's a good idea to shut down the processes correctly each time you've finished using MongoDB; don't just close the command prompt windows when you're done. Shutting down correctly ensures that your data has been committed and saved.\r\n\r\n## Shut down mongo.exe\r\n\r\nIn the mongo.exe window, type 'exit' to shut down the process. It will, very politely, say 'bye' and then it's safe to close the window.\r\n\r\n![](img/bye.png)\r\n\r\n## Shut down mongod.exe\r\n\r\nIn the mongod.exe window, use the `CTRL + C` command to shut down. When you see this output and it returns to the command prompt, it's safe to close the window. \r\n\r\n![](img/ctrlc.png)\r\n"
+    }
+  
+  ]
+  }
+
