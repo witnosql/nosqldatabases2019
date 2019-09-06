@@ -63,6 +63,38 @@
     } 
    ]
 
+  },
+ {
+    
+  
+    "properties" : {},
+  
+  "type" : "topic",
+  "title" : " CRUD: Create ",
+  "img" : "topic.png",
+  "videoid" : "",
+  "objectives" : "<p>In this lab, we will explore the syntax used to create MongoDB structures.</p>",
+  "folder" : "topic-02-crud-create",
+  "link" : "index.html",
+  "los": [
+   {
+    
+  
+    "properties" : {},
+  
+  "type" : "lab",
+  "title" : "Create",
+  "img" : "img/main.png",
+  "videoid" : "none",
+  "objectives" : "<p>This lab introduces the CREATE functions in MongoDB.</p>",
+  "folder" : "book-a-create",
+  "link" : "index.html",
+  "los": [
+   ]
+
+    } 
+   ]
+
   }
  ]
   }

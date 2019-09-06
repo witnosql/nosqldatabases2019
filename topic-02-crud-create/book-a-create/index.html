@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css"
+          type="text/css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css"
+          rel="stylesheet"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/java.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <style>
+      
+
+body {
+  font-family: "Open Sans", "Helvetica", "Helvetica Neue",  "Arial", sans-serif;
+  font-size:90%;
+  color: black;
+}
+
+p {
+  margin: 0.5em;
+}
+
+pre code {
+  font-family: "Monaco";
+  font-size: 100%;
+}
+
+img {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin:10px;
+}
+
+h1, h2, h3 {
+  border-bottom:thin solid black;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+}
+
+h1 {
+  font-style:italic;
+  font-size:130%;
+}
+
+h2 {
+  font-size:110%;
+}
+
+h3 {
+  font-size:100%;
+}
+
+
+
+      
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.footer {
+  background: white;
+  text-align: right;
+}
+.content {
+  flex: 1;
+  overflow: auto;
+}
+
+
+
+    </style>
+  </head>
+
+  
+  
+
+  <div class="ui fixed top pointing inverted stackable menu labmenu">
+    <header class="header item">
+      <i id="toc" class="sitemap icon"></i>
+      
+        <a href="../index.html">  CRUD: Create  </a>
+      
+    </header>
+    <div class="right tab-menu menu">
+      
+        <a class="item" data-tab="Create">
+          Create
+        </a>
+      
+        <a class="item" data-tab="01">
+          01
+        </a>
+      
+        <a class="item" data-tab="02">
+          02
+        </a>
+      
+        <a class="item" data-tab="03">
+          03
+        </a>
+      
+        <a class="item" data-tab="04">
+          04
+        </a>
+      
+        <a class="item" data-tab="05">
+          05
+        </a>
+      
+    </div>
+  </div>
+
+
+  
+
+  <div class="ui pushable">
+    <div class="ui inverted labeled icon left inline vertical sidebar menu">
+      <br><br>
+      
+        
+          
+            <a class="item"
+               href="https://witnosql.github.io/nosqldatabases2019//topic-01-install/book-a/index.html">Install MongoDB </a>
+          
+        
+      
+        
+          
+            <a class="item"
+               href="https://witnosql.github.io/nosqldatabases2019//topic-02-crud-create/book-a-create/index.html">Create </a>
+          
+        
+      
+    </div>
+    <div class="pusher" tabindex="-1">
+      <div class="ui basic segment">
+        <br>
+        
+          <div class="ui tab segment lab" data-tab="Create">
+            <h1>Objectives</h1>
+<p>This lab introduces the CREATE functions in MongoDB.</p>
+
+          </div>
+        
+          <div class="ui tab segment lab" data-tab="01">
+            <h1>MongoDB CRUD Overview</h1>
+<h2>Create Operations</h2>
+<p>Create or insert operations add new documents to a collection. If the collection does not currently exist, insert operations will create the collection.</p>
+<p>MongoDB provides the following methods to insert documents into a collection:</p>
+<pre><code>db.collection.insert()
+db.collection.insertOne()
+db.collection.insertMany()</code></pre>
+<p>In MongoDB, insert operations target a single collection. All write operations in MongoDB are atomic on the level of a single document.</p>
+<h2>Read Operations</h2>
+<p>Read operations retrieves documents from a collection; i.e. queries a collection for documents. MongoDB provides the following methods to read documents from a collection:</p>
+<pre><code>db.collection.find()</code></pre>
+<p>You can specify query filters or criteria that identify the documents to return.</p>
+<h2>Update Operations</h2>
+<p>Update operations modify existing documents in a collection. MongoDB provides the following methods to update documents of a collection:</p>
+<pre><code>db.collection.update()
+db.collection.updateOne()
+db.collection.updateMany()</code></pre>
+<p>In MongoDB, update operations target a single collection. You can specify criteria, or filters, that identify the documents to update. These filters use the same syntax as read operations.</p>
+<h2>Delete Operations</h2>
+<p>Delete operations remove documents from a collection. MongoDB provides the following methods to delete documents of a collection:</p>
+<pre><code>db.collection.remove()
+db.collection.deleteOne()
+db.collection.deleteMany()</code></pre>
+<p>In MongoDB, delete operations target a single collection. You can specify criteria, or filters, that identify the documents to remove. These filters use the same syntax as read and update operations.</p>
+
+          </div>
+        
+          <div class="ui tab segment lab" data-tab="02">
+            <h1>grades.json</h1>
+<p>In this lab, we will import a set of documents from a JSON file and then work with this data. The JSON file contains student grades with the following information:</p>
+<ul>
+<li><code>_id</code> : each document has an id property, which has as its value an oid (object id)</li>
+<li><code>student_id</code> : each student has an id number</li>
+<li><code>class_id</code> : each class has an id number</li>
+<li><code>scores</code> : scores is an array of objects. Each object contains two properties:<ul>
+<li><code>type</code> : a string, describing the score type (exam, quiz, or homework)</li>
+<li><code>score</code> : a float, containing the score</li>
+</ul>
+</li>
+</ul>
+<h2>sample document</h2>
+<pre><code>{
+  &quot;_id&quot; : { &quot;$oid&quot; : &quot;50b59cd75bed76f46522c34e&quot; },
+  &quot;student_id&quot; : 0,
+  &quot;class_id&quot; : 2,
+  &quot;scores&quot; : [
+    { &quot;type&quot; : &quot;exam&quot;, &quot;score&quot; : 57.92947112575566 },
+    { &quot;type&quot; : &quot;quiz&quot;, &quot;score&quot; : 21.24542588206755 },
+    { &quot;type&quot; : &quot;homework&quot;, &quot;score&quot; : 68.19567810587429 },
+    { &quot;type&quot; : &quot;homework&quot;, &quot;score&quot; : 67.95019716560351 },
+    { &quot;type&quot; : &quot;homework&quot;, &quot;score&quot; : 18.81037253352722 }
+  ]
+}</code></pre>
+<h2>importing grades.json</h2>
+<ul>
+<li>Download and unzip this file: <a href="./archives/grades.zip">grades.zip</a></li>
+<li>Place the grades.json file into your mongodb bin folder (e.g. <code>C:\Program Files\MongoDB\Server\4.0\bin</code>)</li>
+<li>Open a command prompt and change directory to the mongodb bin folder:</li>
+</ul>
+<p><img src="img/mongobin.png" alt=""></p>
+<ul>
+<li>Enter the following command to import the grades.json file:</li>
+</ul>
+<pre><code>mongoimport -d grades -c grades --drop grades.json</code></pre>
+<ul>
+<li><p>Syntax explained:</p>
+<ul>
+<li><strong>-d grades:</strong> -d creates a database, which we are naming grades</li>
+<li><strong>-c grades:</strong> -c creates a collection , which we are also naming grades</li>
+<li><strong>--drop:</strong> the drop command will drop the grades collection if it already exists</li>
+<li><strong>grades.json:</strong> lastly, we provide the filename. If the file is not in the mongodb bin folder then you would need to provide the full path to the file.</li>
+</ul>
+</li>
+<li><p>You should see the following output after a successful import:</p>
+</li>
+</ul>
+<p><img src="img/mongoimport.png" alt=""></p>
+<ul>
+<li>Start up your mongod.exe process, and then start the mongo.exe process in a second command prompt.</li>
+<li>In the mongo.exe window, enter the <code>show dbs</code> command.</li>
+<li>You should see the following output, confirming that your grades database now exists.</li>
+</ul>
+<p><img src="img/afterimport.png" alt=""></p>
+<ul>
+<li>Run a find() statement to see a subset of the data we have imported. Don&#39;t forget to run the &#39;use grades&#39; command first to switch to the grades database.</li>
+</ul>
+<pre><code>use grades
+
+db.grades.find({class_id:2}).pretty()</code></pre>
+<ul>
+<li>Your output should look something like this:</li>
+</ul>
+<p><img src="img/findclassid.png" alt=""></p>
+<p>We will discuss find() in greater detail in the next section. First, we will look at insert statements to add documents to our grades collection.</p>
+
+          </div>
+        
+          <div class="ui tab segment lab" data-tab="03">
+            <h1>db.collection.insert()</h1>
+<p>Inserts a document or documents into a collection.</p>
+<p>The insert() method has the following syntax:</p>
+<pre><code>db.products.insert( { _id: 10, item: &quot;box&quot;, qty: 20 } )</code></pre>
+<p>This example creates a document in the products collection, with an id of 10, an item property with the value &quot;box&quot; and a qty property with the value 20. If the products collection does not exist, then the insert() method will create the collection.</p>
+<h2><code>_id</code> Field</h2>
+<p>If the document does not specify an <code>_id</code> field, then MongoDB will add the <code>_id</code> field and assign a unique ObjectId for the document before inserting. If the document does contain an <code>_id</code> field, the <code>_id</code> value must be unique within the collection to avoid duplicate key error.</p>
+<h2>Examples</h2>
+<h3>Insert a Document without Specifying an <code>_id</code> Field</h3>
+<p>In the following example, the document passed to the insert() method does not contain the <code>_id</code> field:</p>
+<pre><code>db.products.insert( { item: &quot;card&quot;, qty: 15 } )</code></pre>
+<p>During the insert, mongod will create the <code>_id</code> field and assign it a unique ObjectId value, as verified by the inserted document:</p>
+<pre><code>{ &quot;_id&quot; : ObjectId(&quot;5063114bd386d8fadbd6b004&quot;), &quot;item&quot; : &quot;card&quot;, &quot;qty&quot; : 15 }</code></pre>
+<p>The ObjectId values are specific to the machine and time when the operation is run. As such, your values may differ from those in the example.</p>
+<h3>Insert a Document Specifying an <code>_id</code> Field</h3>
+<p>In the following example, the document passed to the insert() method includes the <code>_id</code> field. The value of <code>_id</code> must be unique within the collection to avoid duplicate key error.</p>
+<pre><code>db.products.insert( { _id: 10, item: &quot;box&quot;, qty: 20 } )</code></pre>
+<p>The operation inserts the following document in the products collection:</p>
+<pre><code>{ &quot;_id&quot; : 10, &quot;item&quot; : &quot;box&quot;, &quot;qty&quot; : 20 }</code></pre>
+<h3>Insert Multiple Documents</h3>
+<p>The following example performs a bulk insert of three documents by passing an array of documents to the insert() method. By default, MongoDB performs an ordered insert. With ordered inserts, if an error occurs during an insert of one of the documents, MongoDB returns an error without processing the remaining documents in the array.</p>
+<p>The documents in the array do not need to have the same fields. For instance, the first document in the array has an <code>_id</code> field and a type field. Because the second and third documents do not contain an <code>_id</code> field, mongod will create the <code>_id</code> field for the second and third documents during the insert:</p>
+<pre><code>db.products.insert(
+   [
+     { _id: 11, item: &quot;pencil&quot;, qty: 50, type: &quot;no.2&quot; },
+     { item: &quot;pen&quot;, qty: 20 },
+     { item: &quot;eraser&quot;, qty: 25 }
+   ]
+)</code></pre>
+<p>The operation inserted the following three documents:</p>
+<pre><code>{ &quot;_id&quot; : 11, &quot;item&quot; : &quot;pencil&quot;, &quot;qty&quot; : 50, &quot;type&quot; : &quot;no.2&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;51e0373c6f35bd826f47e9a0&quot;), &quot;item&quot; : &quot;pen&quot;, &quot;qty&quot; : 20 }
+{ &quot;_id&quot; : ObjectId(&quot;51e0373c6f35bd826f47e9a1&quot;), &quot;item&quot; : &quot;eraser&quot;, &quot;qty&quot; : 25 }</code></pre>
+<h3>Perform an Unordered Insert</h3>
+<p>The following example performs an unordered insert of three documents. With unordered inserts, if an error occurs during an insert of one of the documents, MongoDB continues to insert the remaining documents in the array.</p>
+<pre><code>db.products.insert(
+   [
+     { _id: 20, item: &quot;lamp&quot;, qty: 50, type: &quot;desk&quot; },
+     { _id: 21, item: &quot;lamp&quot;, qty: 20, type: &quot;floor&quot; },
+     { _id: 22, item: &quot;bulk&quot;, qty: 100 }
+   ],
+   { ordered: false }
+)</code></pre>
+<h2>Exercises:</h2>
+<h3>Exercise One:</h3>
+<ul>
+<li>Add a new document with the following details:<ul>
+<li>student_id: 50</li>
+<li>class_id: 28</li>
+<li>array of scores:<ul>
+<li>exam 58.6</li>
+<li>quiz 22.4</li>
+<li>homework, 74.2</li>
+<li>homework, 68.3</li>
+<li>homework, 17.9</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>When creating the document, take care to match the structure of the existing documents in the database. This is important later when you are querying the documents; we want them all to have the same properties so that our queries will work on all documents.</li>
+</ul>
+<pre><code>{
+  &quot;_id&quot; : { &quot;$oid&quot; : &quot;50b59cd75bed76f46522c34e&quot; },
+  &quot;student_id&quot; : 0,
+  &quot;class_id&quot; : 2,
+  &quot;scores&quot; : [
+    { &quot;type&quot; : &quot;exam&quot;, &quot;score&quot; : 57.92947112575566 },
+    { &quot;type&quot; : &quot;quiz&quot;, &quot;score&quot; : 21.24542588206755 },
+    { &quot;type&quot; : &quot;homework&quot;, &quot;score&quot; : 68.19567810587429 },
+    { &quot;type&quot; : &quot;homework&quot;, &quot;score&quot; : 67.95019716560351 },
+    { &quot;type&quot; : &quot;homework&quot;, &quot;score&quot; : 18.81037253352722 }
+  ]
+}</code></pre>
+<ul>
+<li><p>Run a find query to view the document you created ( <code>db.grades.find({student_id:50}).pretty()</code> )</p>
+</li>
+<li><p>Note that mongod has added an oid to the document</p>
+</li>
+</ul>
+<h3>Exercise Two</h3>
+<ul>
+<li><p>Use the insert() statement to insert multiple documents; add both of these documents with the same statement.</p>
+<ul>
+<li>student_id: 50</li>
+<li>class_id: 10</li>
+<li>array of scores:<ul>
+<li>exam 68.5</li>
+<li>quiz 24.7</li>
+<li>homework, 78.8</li>
+<li>homework, 69.5</li>
+<li>homework, 16.5</li>
+</ul>
+</li>
+<li>student_id: 50</li>
+<li>class_id: 11</li>
+<li>array of scores:<ul>
+<li>exam 52.1</li>
+<li>quiz 19.8</li>
+<li>homework, 55.3</li>
+<li>homework, 89.4</li>
+<li>homework, 18.7</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Run a find query to view the documents you created. You should now see three documents in this student&#39;s results.</p>
+<ul>
+<li>db.grades.find({student_id:50}).pretty()</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        
+          <div class="ui tab segment lab" data-tab="04">
+            <h1>db.collection.insertOne()</h1>
+<p>Inserts a single document into a collection.</p>
+<p>The insertOne() method has the following syntax:</p>
+<pre><code>db.products.insertOne( { item: &quot;card&quot;, qty: 15 } );</code></pre>
+<p>As with the insert() method, if the collection does not exist, then the insertOne() method creates the collection.</p>
+<hr>
+<h2>insert() vs insertOne() and insertMany()</h2>
+<p>What&#39;s the difference? As you have seen, you can use the insert() statement to insert one document and to insert multiple documents. However, the insert() method is deprecated and no longer compatible with some MongoDB drivers and external applications, so insertOne() and insertMany() are used instead. For us, working in the console, any of the options will work.</p>
+<hr>
+<h2>Examples</h2>
+<h3>Insert a Document without Specifying an <code>_id</code> Field</h3>
+<p>In the following example, the document passed to the insertOne() method does not contain the <code>_id</code> field:</p>
+<pre><code>db.products.insertOne( { item: &quot;card&quot;, qty: 15 } )</code></pre>
+<p>The operation returns the following document:</p>
+<pre><code>{
+   &quot;acknowledged&quot; : true,
+   &quot;insertedId&quot; : ObjectId(&quot;56fc40f9d735c28df206d078&quot;)
+}</code></pre>
+<p>Because the documents did not include <code>_id</code>, mongod creates and adds the <code>_id</code> field and assigns it a unique ObjectId value.</p>
+<h3>Insert a Document Specifying an <code>_id</code> Field</h3>
+<p>In the following example, the document passed to the insertOne() method includes the <code>_id</code> field. The value of <code>_id</code> must be unique within the collection to avoid duplicate key error. Note: the use of try, catch and print here will provide more readable and user-friendly error messages.</p>
+<pre><code>try {
+   db.products.insertOne( { _id: 10, item: &quot;box&quot;, qty: 20 } );
+} catch (e) {
+   print (e);
+}</code></pre>
+<p>The operation returns the following:</p>
+<p>{ &quot;acknowledged&quot; : true, &quot;insertedId&quot; : 10 }</p>
+<p>Inserting an duplicate value for any key that is part of a unique index, such as <code>_id</code>, throws an exception. The following attempts to insert a document with a <code>_id</code> value that already exists:</p>
+<pre><code>try {
+   db.products.insertOne( { _id: 10, &quot;item&quot; : &quot;packing peanuts&quot;, &quot;qty&quot; : 200 } );
+} catch (e) {
+   print (e);
+}</code></pre>
+<p>Since <code>_id</code>: 10 already exists, the following exception is thrown:</p>
+<pre><code>WriteError({
+   &quot;index&quot; : 0,
+   &quot;code&quot; : 11000,
+   &quot;errmsg&quot; : &quot;E11000 duplicate key error collection: inventory.products index: _id_ dup key: { : 10.0 }&quot;,
+   &quot;op&quot; : {
+      &quot;_id&quot; : 10,
+      &quot;item&quot; : &quot;packing peanuts&quot;,
+      &quot;qty&quot; : 200
+   }
+})</code></pre>
+<h2>Exercises:</h2>
+<h3>Exercise One:</h3>
+<ul>
+<li>Use insertOne() to add a new document with the following details:<ul>
+<li><code>_id</code>: 10</li>
+<li>student_id: 50</li>
+<li>class_id: 23</li>
+<li>array of scores:<ul>
+<li>exam 54.1</li>
+<li>quiz 24.2</li>
+<li>homework, 65.8</li>
+<li>homework, 67.5</li>
+<li>homework, 18.1</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Exercise Two:</h3>
+<ul>
+<li>Try to add the same document again. You should get an error message.</li>
+<li>Add try, catch, and print (as shown above), and try to insert the document once more. Compare this error message with the previous one.</li>
+</ul>
+
+          </div>
+        
+          <div class="ui tab segment lab" data-tab="05">
+            <h1>db.collection.insertMany()</h1>
+<p>Inserts multiple documents into a collection.</p>
+<p>The insertMany() method has the following syntax:</p>
+<pre><code>db.products.insertMany( [
+   { item: &quot;card&quot;, qty: 15 },
+   { item: &quot;envelope&quot;, qty: 20 },
+   { item: &quot;stamps&quot; , qty: 30 }
+] );</code></pre>
+<h2>Examples</h2>
+<p>The following examples insert documents into the products collection.</p>
+<h3>Insert Several Document without Specifying an <code>_id</code> Field</h3>
+<p>The following example uses db.collection.insertMany() to insert documents that do not contain the <code>_id</code> field:</p>
+<pre><code>try {
+   db.products.insertMany( [
+      { item: &quot;card&quot;, qty: 15 },
+      { item: &quot;envelope&quot;, qty: 20 },
+      { item: &quot;stamps&quot; , qty: 30 }
+   ] );
+} catch (e) {
+   print (e);
+}</code></pre>
+<p>The operation returns the following document:</p>
+<pre><code>{
+   &quot;acknowledged&quot; : true,
+   &quot;insertedIds&quot; : [
+      ObjectId(&quot;562a94d381cb9f1cd6eb0e1a&quot;),
+      ObjectId(&quot;562a94d381cb9f1cd6eb0e1b&quot;),
+      ObjectId(&quot;562a94d381cb9f1cd6eb0e1c&quot;)
+   ]
+}</code></pre>
+<h3>Insert Several Documents Specifying an <code>_id</code> Field</h3>
+<p>The following example/operation uses insertMany() to insert documents that include the <code>_id</code> field. The value of <code>_id</code> must be unique within the collection to avoid a duplicate key error.</p>
+<pre><code>try {
+   db.products.insertMany( [
+      { _id: 10, item: &quot;large box&quot;, qty: 20 },
+      { _id: 11, item: &quot;small box&quot;, qty: 55 },
+      { _id: 12, item: &quot;medium box&quot;, qty: 30 }
+   ] );
+} catch (e) {
+   print (e);
+}</code></pre>
+<p>The operation returns the following document:</p>
+<pre><code>{ &quot;acknowledged&quot; : true, &quot;insertedIds&quot; : [ 10, 11, 12 ] }</code></pre>
+<p>Inserting a duplicate value for any key that is part of a unique index, such as <code>_id</code>, throws an exception. The following attempts to insert a document with a <code>_id</code> value that already exists:</p>
+<pre><code>try {
+   db.products.insertMany( [
+
+      { _id: 13, item: &quot;envelopes&quot;, qty: 60 },
+      { _id: 13, item: &quot;stamps&quot;, qty: 110 },
+      { _id: 14, item: &quot;packing tape&quot;, qty: 38 }
+   ] );
+} catch (e) {
+   print (e);
+}</code></pre>
+<p>Since <code>_id</code>: 13 already exists, the following exception is thrown:</p>
+<pre><code>BulkWriteError({
+   &quot;writeErrors&quot; : [
+      {
+         &quot;index&quot; : 0,
+         &quot;code&quot; : 11000,
+         &quot;errmsg&quot; : &quot;E11000 duplicate key error collection: inventory.products index: _id_ dup key: { : 13.0 }&quot;,
+         &quot;op&quot; : {
+            &quot;_id&quot; : 13,
+            &quot;item&quot; : &quot;stamps&quot;,
+            &quot;qty&quot; : 110
+         }
+      }
+   ],
+   &quot;writeConcernErrors&quot; : [ ],
+   &quot;nInserted&quot; : 1,
+   &quot;nUpserted&quot; : 0,
+   &quot;nMatched&quot; : 0,
+   &quot;nModified&quot; : 0,
+   &quot;nRemoved&quot; : 0,
+   &quot;upserted&quot; : [ ]
+})</code></pre>
+<p>Note that one document was inserted: The first document of <code>_id</code>: 13 will insert successfully, but the second insert will fail. This will also stop additional documents left in the queue from being inserted.</p>
+<p>With ordered set to false, the insert operation would continue with any remaining documents.</p>
+<pre><code>try {
+   db.products.insertMany( [
+      { _id: 13, item: &quot;stamps&quot;, qty: 125 },
+      { _id: 13, item: &quot;tape&quot;, qty: 20},
+      { _id: 14, item: &quot;bubble wrap&quot;, qty: 30}
+   ], { ordered: false } );
+} catch (e) {
+   print (e);
+}</code></pre>
+<h2>Exercise:</h2>
+<ul>
+<li><p>Use the insertMany() statement to insert multiple documents; add both of these documents with the same statement.</p>
+<ul>
+<li>student_id: 50</li>
+<li>class_id: 2</li>
+<li>array of scores:<ul>
+<li>exam 58.6</li>
+<li>quiz 18.9</li>
+<li>homework, 58.7</li>
+<li>homework, 68.7</li>
+<li>homework, 17.8</li>
+</ul>
+</li>
+<li>student_id: 50</li>
+<li>class_id: 15</li>
+<li>array of scores:<ul>
+<li>exam 55.4</li>
+<li>quiz 18.7</li>
+<li>homework, 59.5</li>
+<li>homework, 82.1</li>
+<li>homework, 16.8</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Run a find query to view the documents you created. You should now see six documents in this student&#39;s results.</p>
+<ul>
+<li>db.grades.find({student_id:50}).pretty()</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+  <br>
+  <script>
+    $(document).on('keydown', function(e) {
+  e = e || window.event;
+  var nextTab;
+  switch (e.which || e.keyCode) {
+    case 37: // left
+      nextTab = $('.tab-menu a[data-tab].active').prev('a[data-tab]');
+      if (!nextTab.length) nextTab = $('.tab-menu a[data-tab]').last();
+      nextTab.click();
+      $('.pusher').focus();
+      break;
+
+    case 39: // right
+      nextTab = $('.tab-menu a[data-tab].active').next('a[data-tab]');
+      if (!nextTab.length) nextTab = $('.tab-menu a[data-tab]').first();
+      nextTab.click();
+      $('.pusher').focus();
+      break;
+  }
+});
+
+    $(document).ready(function() {
+  $('img').addClass('ui image');
+
+  $('.ui.embed').embed();
+
+  const $images = $('.lab img');
+  jQuery.each($images, function(i) {
+    if ($images[i].alt.length > 0) {
+      const divImg = $(document.createElement('div')).addClass(
+        'ui basic segment',
+      );
+      $($images[i]).wrap(divImg);
+      const divLabel = $(document.createElement('div')).addClass(
+        'ui blue ribbon label',
+      );
+      divLabel.append($images[i].alt);
+      $(divLabel).insertBefore($images[i]);
+    }
+  });
+
+  $('.ui.menu .item').tab({
+    history: true,
+    historyType: 'hash',
+  });
+
+  $('.popup').popup();
+
+  $('.ui.sidebar')
+    .sidebar({ context: $('.pushable') })
+    .sidebar('setting', 'transition', 'slide out')
+    .sidebar('attach events', '#toc');
+});
+
+  </script>
+
+
+
+  <div class="ui bottom fixed borderless right menu">
+    <div class="ui right small menu">
+      <div class="ui tiny basic message segment">
+         Powered by <a href="https://github.com/edeleastar/tutors-ts">tutors-ts.</a> 
+      </div>
+    </div>
+  </div>
+
+  </body>
+
+</html>
